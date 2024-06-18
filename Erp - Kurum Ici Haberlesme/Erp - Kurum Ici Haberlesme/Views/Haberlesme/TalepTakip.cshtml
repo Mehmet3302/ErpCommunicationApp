@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Erp___Kurum_Ici_Haberlesme.Models.Haberlesme>
+
+@{
+    ViewData["Title"] = "Taleplerimi Takip Et";
+}
+
+<h1 class="center-text">@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Açıklama</th>
+            <th>Öncelik</th>
+            <th>Satın Alma Durumu</th>
+            <th>Ödeme Durumu</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Aciklama</td>
+                <td>@item.OncelikDurumu</td>
+                <td>@item.Durum</td>
+                <td>
+                    @if (item.Durum == Erp___Kurum_Ici_Haberlesme.Models.Haberlesme.TalepDurumu.Red)
+                    {
+                        <span>Reddedildi</span>
+                    }
+                    else
+                    {
+                        @if (item.OdemeOnaylandiMi == true)
+                        {
+                            <span>Onaylandı</span>
+                        }
+                        else
+                        {
+                            <span>Beklemede</span>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .center-text {
+        text-align: center;
+    }
+</style>

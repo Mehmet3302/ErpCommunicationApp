@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Erp___Kurum_Ici_Haberlesme.Models.Haberlesme>
+
+@{
+    ViewData["Title"] = "Onaylanan Talepler";
+}
+
+<h1 class="center-text">@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Talep Id</th>
+            <th>Personel</th>
+            <th>Açıklama</th>
+            <th>Ödeme Miktarı</th>
+            <th>Satıcı Bilgileri</th> <!-- Yeni sütun ekleyin -->
+            <th>PDF</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TalebId</td>
+                <td>@item.User?.PersonelAdSoyad</td>
+                <td>@item.Aciklama</td>
+                <td>@item.OdemeMiktari ₺</td>
+                <td>@item.SaticiBilgileri</td> <!-- Yeni sütunu ekleyin -->
+                <td>
+                    @if (item.PdfFile == null)
+                    {
+                        <form asp-controller="Haberlesme" asp-action="OdemeYap" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="@item.TalebId" />
+                            <input type="file" name="pdfFileUpload" class="form-control" required />
+                            <button type="submit" class="btn btn-success mt-2">Onayla</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("DownloadPdf", new { id = item.TalebId })" target="_blank">Faturayı Görüntüle</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .center-text {
+        text-align: center;
+    }
+</style>

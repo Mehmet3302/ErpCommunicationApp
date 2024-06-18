@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Birimler>
+
+<h1 class="h2" align="center">Birimlerimiz</h1>
+<a href="/Birim/Create" class="btn btn-primary">Birim Ekle</a>
+<hr />
+<div class="mb-3">
+    <input type="text" class="form-control" id="searchInput" placeholder="Aramak İstediğiniz Birim...">
+</div>
+<table class="table table-striped" id="tableBody">
+    <thead>
+        <tr>
+            <th>Birim Adı</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.BirimAd)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.BirimId" class="btn btn-sm btn-primary">Düzenle</a>
+                    <a asp-action="Delete" asp-route-id="@item.BirimId" class="btn btn-sm btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#searchInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#tableBody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+</script>

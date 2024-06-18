@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "MESKİ - ANASAYFA";
+    var personelAdSoyad = ViewBag.PersonelAdSoyad as string;
+}
+
+<div class="welcome-container">
+    <div class="welcome-message" id="welcomeMessage">Hoşgeldiniz</div>
+    <div class="personel-name" id="personelName">Sayın @personelAdSoyad</div>
+</div>
+
+<style>
+    .welcome-container {
+        text-align: center;
+        background-color: #f0f0f0;
+        padding: 50px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-top: 50px;
+    }
+
+    .welcome-message,
+    .personel-name {
+        opacity: 0;
+        transition: opacity 1s ease, transform 1s ease;
+    }
+
+        .welcome-message.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .personel-name.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+    .welcome-message {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 10px;
+        transform: translateX(100%);
+    }
+
+    .personel-name {
+        font-size: 2rem;
+        color: #007bff;
+        transform: translateX(-100%);
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var welcomeMessage = document.getElementById("welcomeMessage");
+        var personelName = document.getElementById("personelName");
+
+        setTimeout(function () {
+            welcomeMessage.classList.add("show");
+        }, 500);
+
+        setTimeout(function () {
+            personelName.classList.add("show");
+        }, 1000);
+    });
+</script>

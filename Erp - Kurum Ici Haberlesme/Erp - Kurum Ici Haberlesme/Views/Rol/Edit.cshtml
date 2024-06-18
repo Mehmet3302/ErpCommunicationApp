@@ -1,0 +1,21 @@
+﻿@model AppRole
+
+<h1 class="h2" align="center" style="color:darkblue;">Rol Düzenleme</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Rol Adı</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+                <a asp-action="Index" class="btn btn-secondary">Geri</a>
+            </div>
+        </form>
+    </div>
+</div>

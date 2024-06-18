@@ -1,0 +1,49 @@
+﻿@model Erp___Kurum_Ici_Haberlesme.Models.Haberlesme
+
+@{
+    ViewData["Title"] = "Talep Detayı";
+}
+
+<h1 class="center-text">@ViewData["Title"]</h1>
+
+<form asp-action="TalepDetay" method="post">
+    <input type="hidden" asp-for="TalebId" />
+    <div class="form-group">
+        <label asp-for="Aciklama">Talep Açıklaması</label>
+        <input asp-for="Aciklama" class="form-control" readonly />
+        <span asp-validation-for="Aciklama" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="OncelikDurumu">Öncelik Durumu</label>
+        <input asp-for="OncelikDurumu" class="form-control" readonly />
+        <span asp-validation-for="OncelikDurumu" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SatinAlmaDurumuu">Satın Alma Durumu</label>
+        <select asp-for="SatinAlmaDurumuu" class="form-control">
+            <option value="Beklemede">Beklemede</option>
+            <option value="FiyatAlindi">Fiyat Alındı</option>
+            <option value="OdemeBekliyor">Ödeme Bekliyor</option>
+            <option value="Onaylandi">Onaylandı</option>
+            <option value="Red">Red</option>
+        </select>
+        <span asp-validation-for="SatinAlmaDurumuu" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SaticiBilgileri">Satıcı Bilgilerini Giriniz</label>
+        <input asp-for="SaticiBilgileri" class="form-control" />
+        <span asp-validation-for="SaticiBilgileri" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="OdemeMiktari">Ödeme Miktarı ?</label>
+        <input asp-for="OdemeMiktari" class="form-control" />
+        <span asp-validation-for="OdemeMiktari" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>
+
+<style>
+    .center-text {
+        text-align: center;
+    }
+</style>

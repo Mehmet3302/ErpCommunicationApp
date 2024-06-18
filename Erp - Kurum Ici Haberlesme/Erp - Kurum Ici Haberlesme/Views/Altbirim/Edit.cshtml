@@ -1,0 +1,15 @@
+﻿@model AltBirimler
+<h2>Alt Birim Güncelleme</h2>
+<hr />
+<form asp-controller="AltBirim" asp-action="Edit">
+    <input type="hidden" asp-for="AltBirimId" />
+    <div class="mb-3">
+        <label asp-for="BirimId" class="form-label">Alt Birimin Ekleneceği Ana Birim</label>
+        <select asp-for="BirimId" asp-items="ViewBag.Birimler"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="AltBirimAdı" class="form-label">Alt Birim İsmi</label>
+        <input asp-for="AltBirimAdı" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-secondary">Kaydet</button>
+</form>

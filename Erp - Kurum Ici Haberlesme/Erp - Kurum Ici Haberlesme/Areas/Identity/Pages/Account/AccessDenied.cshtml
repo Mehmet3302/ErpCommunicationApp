@@ -1,0 +1,60 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "Erişim Engellendi";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]MESKİ HABERLEŞME</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body, html {
+            height: 100%;
+        }
+
+        .bg-cover {
+            background-size: cover !important;
+        }
+
+        .container {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .error-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 3rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body class="bg-cover" style="background-image: url('https://source.unsplash.com/1600x900/?security,lock');">
+    <div class="container">
+        <div class="error-container">
+            <header>
+                <h1 class="text-danger">@ViewData["Title"]</h1>
+                <p class="text-danger">Bu Sayfaya Erişim İzniniz Bulunmamaktadır.</p>
+                <p class="text-muted">Erişiminizin olması gerektiğini düşünüyorsanız lütfen yöneticiyle iletişime geçin.</p>
+                <a href="javascript:history.back()" class="btn btn-primary mt-3">GERİ DÖN</a>
+            </header>
+        </div>
+    </div>
+</body>
+</html>

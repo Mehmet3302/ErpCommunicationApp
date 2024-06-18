@@ -1,0 +1,298 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Erp___Kurum_Ici_Haberlesme</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Erp___Kurum_Ici_Haberlesme.styles.css" asp-append-version="true" />
+    <style>
+        .footer {
+            display: flex; /* Div'leri yanyana hizalar */
+            justify-content: space-between; /* İçeriği boşluğa yayarak ortalar */
+            align-items: center; /* Dikey hizalamayı ayarlar */
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 15px;
+            background-color: #2c3e50;
+            font-size: 14px;
+            color: white;
+            z-index: 1000;
+        }
+
+            .footer div {
+                margin: 0 10px; /* Her div'in sağında ve solunda 10px boşluk bırakır */
+            }
+
+            .footer .left {
+                text-align: left;
+                margin-right: 20px; /* Aralarına boşluk bırakmak için */
+            }
+
+            .footer .center {
+                text-align: center;
+                margin-right: 20px; /* Aralarına boşluk bırakmak için */
+                margin-left: auto; /* Aralarına boşluk bırakmak için */
+            }
+
+            .footer .right {
+                text-align: right;
+                margin-left: 20px; /* Aralarına boşluk bırakmak için */
+            }
+
+
+        body {
+            padding-bottom: 60px; /* Footer'ın yüksekliği + padding ekledik */
+        }
+
+            /* Razor sayfasının scroll olayı varsa */
+            body.scroll-enabled .footer {
+                position: relative;
+            }
+
+            /* Razor sayfasının scroll olayı yoksa */
+            body.no-scroll .footer {
+                position: fixed;
+                bottom: 0;
+            }
+
+
+        .main-content {
+            margin-bottom: 60px; /* Footer ile aralarına 50px boşluk ekleyecektir */
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .navbar-brand {
+            color: #ffffff !important; /* Beyaz renk ve !important ile */
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            padding: 8px 20px;
+            border-radius: 5px;
+            background-color: transparent;
+            color: #ecf0f1;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-align: center;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-item.btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+            .navbar-nav .nav-item .nav-link:hover,
+            .nav-item.btn:hover {
+                background-color: deepskyblue;
+                color: white;
+            }
+
+        .btn-outline-light {
+            color: #2c3e50;
+            border-color: #2c3e50;
+        }
+
+            .btn-outline-light:hover {
+                background-color: #2c3e50;
+                color: #ecf0f1;
+            }
+
+        .custom-heading {
+            color: white;
+        }
+
+        .custom-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+            .custom-btn:hover {
+                background-color: #c82333;
+                color: white;
+            }
+
+        .welcome-message {
+            color: #ecf0f1;
+            margin-right: 10px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        #time {
+            color: white;
+            font-family: 'Nova Mono', monospace;
+            font-size: 2vw;
+            text-align: center;
+            text-shadow: 0px 0px 20px;
+        }
+
+        #sakli {
+            color: white;
+        }
+
+        #meski {
+            color: white;
+        }
+
+            #meski a {
+                text-decoration: none;
+                color: white;
+                font-weight: bold;
+                transition: color 0.3s;
+            }
+
+                #meski a:hover {
+                    color: #007bff;
+                }
+
+                #meski a:after {
+                    content: "";
+                    display: block;
+                    width: 0;
+                    height: 2px;
+                    background-color: #007bff;
+                    transition: width 0.3s;
+                }
+
+                #meski a:hover:after {
+                    width: 100%;
+                }
+    </style>
+</head>
+<body>
+    @{
+        bool isSatınAlmaOrMuhasebe = User.IsInRole("Satın Alma Genel Müdürü") ||
+        User.IsInRole("Satın Alma Şube Müdürü") ||
+        User.IsInRole("Satın Alma Personeli") ||
+        User.IsInRole("Muhasebe Genel Müdürü") ||
+        User.IsInRole("Muhasebe Şube Müdürü") ||
+        User.IsInRole("Muhasebe Personeli") ||
+        User.IsInRole("Admin");
+    }
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MESKİ - HABERLEŞME</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            if (User.IsInRole("Bilişim Teknolojileri Genel Müdürü") || User.IsInRole("Satın Alma Genel Müdürü") || User.IsInRole("Muhasebe Genel Müdürü") || User.IsInRole("Admin") || User.IsInRole("İnsan Kaynakları Genel Müdürü"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Personel" asp-action="Index">Personeller</a>
+                                </li>
+                            }
+                        }
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Birim" asp-action="Index">Birimler</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="AltBirim" asp-action="Index">Altbirimler</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Rol" asp-action="Index">Roller</a>
+                                </li>
+                            }
+                        }
+                        @if (!isSatınAlmaOrMuhasebe)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Haberlesme" asp-action="TalepOlustur">Talep Oluştur</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Haberlesme" asp-action="TalepTakip">Talep Takip</a>
+                            </li>
+                        }
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            if (User.IsInRole("Satın Alma Genel Müdürü") || User.IsInRole("Satın Alma Şube Müdürü") || User.IsInRole("Satın Alma Personeli"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Haberlesme" asp-action="Talepler">Talepler</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Haberlesme" asp-action="OncekiTalepler">Önceki Onaylanan Talepler</a>
+                                </li>
+                            }
+                        }
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            if (User.IsInRole("Muhasebe Genel Müdürü") || User.IsInRole("Muhasebe Şube Müdürü") || User.IsInRole("Muhasebe Personeli"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Haberlesme" asp-action="OnaylananTalepler">Onaylanan Talepler</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Haberlesme" asp-action="GecmisOdemeler">Geçmiş Ödemeler</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="left-content">
+            <p id="sakli">&copy; 2023 - MESKİ MESAJ - Tüm Hakları Saklıdır.</p>
+        </div>
+        <div class="center-content">
+            <p id="meski">
+                <a href="https://meski.gov.tr/">MERSİN SU VE KANALİZASYON İŞLERİ GENEL MÜDÜRLÜĞÜ</a>
+            </p>
+        </div>
+        <div class="right-content">
+            <p id="time"></p>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime(); 
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<AppUser>
+
+<h1 class="h2" align="center" style="color:darkblue;">Personeller</h1>
+<a asp-controller="Personel" asp-action="Create" class="btn btn-primary">Personel Ekle</a>
+<br />
+<hr />
+<table id="tableContainer" class="table table-striped">
+    <thead>
+    <th>Resim</th>
+    <th>Personel Adı</th>
+    <th>Email</th>
+    <th style="width: 200px;"></th>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr><td colspan="4" class="text-center">Personel Yok</td></tr>
+        }
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @if (user.ProfilResmi != null && user.ProfilResmi.Length > 0)
+                    {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(user.ProfilResmi)" alt="Profil Resmi" class="img-thumbnail" style="max-width: 100px; max-height: 100px; object-fit: contain;" />
+                    }
+                    else
+                    {
+                        <img src="~/images/default-avatar.jpg" alt="Varsayılan Profil Resmi" class="img-thumbnail" style="max-width: 200px; max-height: 200px; object-fit: contain;" />
+                    }
+                </td>
+                <td>@user.PersonelAdSoyad</td>
+                <td>@user.Email</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-primary btn-sm">DÜZENLE</a>
+
+                    <form asp-action="Delete" method="post" style="display: inline-block;" onsubmit="return confirm('Bu Personeli Silmek İstediğinize Emin Misiniz ?')">
+                        <input type="hidden" value="@user.Id" name="id" />
+                        <button type="submit" class="btn btn-danger btn-sm">SİL</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,217 @@
+﻿@model IEnumerable<Erp___Kurum_Ici_Haberlesme.Models.Haberlesme>
+
+@{
+    ViewData["Title"] = "Onaylanan Talepler";
+}
+
+<h2 class="center-text">Onaylanan Talepler</h2>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-container">
+                <h4 class="mb-3">Filtreleme</h4>
+                <form asp-action="GecmisOdemeler" method="get">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="minOdemeTutari">Minimum Ödeme Tutarı</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">₺</span>
+                                </div>
+                                <input type="number" class="form-control" id="minOdemeTutari" name="minOdemeTutari" placeholder="Minimum Tutar" />
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="maxOdemeTutari">Maksimum Ödeme Tutarı</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">₺</span>
+                                </div>
+                                <input type="number" class="form-control" id="maxOdemeTutari" name="maxOdemeTutari" placeholder="Maksimum Tutar" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="odenmeTarihi">Ödenme Tarihi</label>
+                        <input type="date" class="form-control" id="odenmeTarihi" name="odenmeTarihi" />
+                    </div>
+                    <div class="form-group">
+                        <label for="odemeYapan">Ödemeyi Yapan Personel</label>
+                        <input type="text" class="form-control" id="odemeYapan" name="odemeYapan" placeholder="Personel Adı" />
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Filtrele</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Talep Numarası</th>
+                <th>Personel</th>
+                <th>Açıklama</th>
+                <th>Ödeme Miktarı</th>
+                <th>Ödeme Tarihi</th>
+                <th>Onaylayan Personel</th>
+                <th>Satıcı Bilgileri</th>
+                <th>PDF</th>
+                <th>Excel</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var talep in Model)
+            {
+                <tr>
+                    <td>@talep.TalebId</td>
+                    <td>@talep.User?.PersonelAdSoyad</td>
+                    <td>@talep.Aciklama</td>
+                    <td>@talep.OdemeMiktari ₺</td>
+                    <td>@talep.OdemeTarihi</td>
+                    <td>@talep.OnaylayanPersonel</td>
+                    <td>@talep.SaticiBilgileri</td> <!-- Satıcı bilgilerini ekleyin -->
+                    <td>
+                        @if (talep.PdfFile != null)
+                        {
+                            <a href="@Url.Action("DownloadPdf", new { id = talep.TalebId })" target="_blank">Faturayı Görüntüle</a>
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action("DownloadExcel", new { id = talep.TalebId })" class="btn btn-success">Excel'e İndir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<nav>
+    <ul class="pagination">
+        @if (ViewBag.HasPreviousPage)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="GecmisOdemeler" asp-route-page="@(ViewBag.PageNumber - 1)">Önceki</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Önceki</span>
+            </li>
+        }
+
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            if (i == ViewBag.PageNumber)
+            {
+                <li class="page-item active">
+                    <span class="page-link">@i</span>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="GecmisOdemeler" asp-route-page="@i">@i</a>
+                </li>
+            }
+        }
+
+        @if (ViewBag.HasNextPage)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="GecmisOdemeler" asp-route-page="@(ViewBag.PageNumber + 1)">Sonraki</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Sonraki</span>
+            </li>
+        }
+    </ul>
+</nav>
+
+<style>
+    .center-text {
+        text-align: center;
+    }
+    /* Form tasarımı */
+    .form-container {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .form-container h4 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+    .input-group-text {
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+    }
+
+    /* Tablo tasarımı */
+    .table-container {
+        margin-top: 30px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table th, .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .table-striped tbody tr:hover {
+        background-color: #e5e5e5;
+    }
+
+    /* Pagination tasarımı */
+    .pagination {
+        margin-top: 20px;
+        justify-content: center;
+    }
+
+        .pagination .page-item .page-link {
+            color: #007bff;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+</style>

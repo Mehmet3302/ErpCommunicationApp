@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Erp___Kurum_Ici_Haberlesme.Models.Haberlesme>
+
+@{
+    ViewData["Title"] = "Onaylanan Talepler Listesi";
+}
+
+<h2 class="center-text">Onaylanan Talepler Listesi</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Talep ID</th>
+            <th>Açıklama</th>
+            <th>Öncelik</th>
+            <th>Oluşturma Tarihi</th>
+            <th>Fiyat Alma Tarihi</th>
+            <th>Miktarı</th>
+            <th>Ödeme Tarihi</th>
+            <th>Onaylandı mı?</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var talep in Model)
+        {
+            <tr>
+                <td>@talep.TalebId</td>
+                <td>@talep.Aciklama</td>
+                <td>@talep.OncelikDurumu</td>
+                <td>@talep.OlusturmaTarihi</td>
+                <td>@talep.FiyatAlmaTarihi</td>
+                <td>@(talep.OdemeMiktari.HasValue ? $"{talep.OdemeMiktari:N2}₺" : "-")</td>
+                <td>
+                    @if (talep.OdemeOnaylandiMi == true)
+                    {
+                        @talep.OdemeTarihi
+                    }
+                    else
+                    {
+                        <text>Henüz ödeme yapılmadı</text>
+                    }
+                </td>
+                <td style="color:@(talep.OdemeOnaylandiMi == true ? "green" : "red")">
+                    @(talep.OdemeOnaylandiMi == true ? "Evet" : "Hayır")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        @if (ViewBag.HasPreviousPage)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="OnaylananTaleplerListesi" asp-route-page="@(ViewBag.PageNumber - 1)">Önceki</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Önceki</span>
+            </li>
+        }
+
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            if (i == ViewBag.PageNumber)
+            {
+                <li class="page-item active">
+                    <span class="page-link">@i</span>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="OnaylananTaleplerListesi" asp-route-page="@i">@i</a>
+                </li>
+            }
+        }
+
+        @if (ViewBag.HasNextPage)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="OnaylananTaleplerListesi" asp-route-page="@(ViewBag.PageNumber + 1)">Sonraki</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Sonraki</span>
+            </li>
+        }
+    </ul>
+</nav>
+
+<style>
+    .center-text {
+        text-align: center;
+    }
+</style>

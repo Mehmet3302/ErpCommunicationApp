@@ -1,0 +1,97 @@
+﻿@model IEnumerable<AltBirimler>
+
+<h1 class="h2" align="center" style="color:darkblue;">Alt Birimlerimiz</h1>
+<a href="/AltBirim/Create" class="btn btn-primary">Alt Birim Ekle</a>
+<hr />
+<div class="mb-3">
+    <input type="text" class="form-control" id="searchInput" placeholder="Aramak İstediğiniz Alt Birim...">
+</div>
+<table class="table table-striped" id="tableBody">
+    <thead>
+        <tr>
+            <th>Alt Birim Adı</th>
+            <th>Hangi Birimde</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.AltBirimAdı)</td>
+                    <td>@(item.Birim != null ? item.Birim.BirimAd : "")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.AltBirimId" class="btn btn-sm btn-primary">Düzenle</a>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal_@item.AltBirimId">Sil</button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@if (Model != null)
+{
+    @foreach (var item in Model)
+    {
+        <div class="modal fade" id="deleteModal_@item.AltBirimId" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel"><b>@item.AltBirimAdı</b></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Bu kaydı silmek istediğinizden emin misiniz?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete(@item.AltBirimId)">Sil</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+<script>
+    $(document).ready(function () {
+        $("#searchInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#tableBody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+
+    function confirmDelete(altbirimId) {
+        $.ajax({
+            url: '/AltBirim/Delete',
+            type: 'POST',
+            data: { AltBirimId: altbirimId },
+            success: function (response) {
+                $('#deleteModal_' + altbirimId).modal('hide');
+                $('[data-altbirim-id="' + altbirimId + '"]').closest('tr').remove();
+                refreshTable();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function refreshTable() {
+        $.ajax({
+            url: '/AltBirim/Index',
+            type: 'GET',
+            success: function (newTableHtml) {
+                $('#tableBody').html(newTableHtml);
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+</script>

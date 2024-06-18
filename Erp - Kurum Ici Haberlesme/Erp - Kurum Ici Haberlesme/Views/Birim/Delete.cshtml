@@ -1,0 +1,10 @@
+﻿@model Birimler
+
+<p>
+    <b>@Model.BirimAd</b> isimli Birimi Silmek İstediğinize Emin Misiniz ?
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.BirimId" />
+        <button type="submit" class="btn btn-danger">Evet</button>
+        <a asp-action="Index" class="btn btn-primary">Hayır</a>
+    </form>
+</p>

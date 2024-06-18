@@ -1,0 +1,42 @@
+﻿@model Erp___Kurum_Ici_Haberlesme.Models.Haberlesme
+
+@{
+    ViewData["Title"] = "Talep Oluştur";
+}
+
+<div class="container">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="TalepOlustur" method="post">
+                <div class="form-group">
+                    <label asp-for="Aciklama" class="form-label">Açıklama</label>
+                    <input asp-for="Aciklama" class="form-control" />
+                    <span asp-validation-for="Aciklama" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OncelikDurumu" class="form-label">Öncelik Durumu</label>
+                    <select asp-for="OncelikDurumu" class="form-control">
+                        <option value="Hemen">Hemen</option>
+                        <option value="BirHafta">Bir Hafta</option>
+                        <option value="IkiUcHafta">İki Üç Hafta</option>
+                    </select>
+                    <span asp-validation-for="OncelikDurumu" class="text-danger"></span>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Talep Oluştur</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .form-label {
+        margin-bottom: 0.5rem;
+    }
+    .center-text {
+        text-align: center;
+    }
+</style>

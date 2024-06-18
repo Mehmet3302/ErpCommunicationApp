@@ -1,0 +1,39 @@
+﻿@model IEnumerable<RoleUserViewModel>
+
+<h1 class="h2" align="center" style="color:darkblue;">Roller - Personeller</h1>
+<a class="btn btn-primary" asp-action="Create">Rol Ekleme</a>
+<hr />
+<br />
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Rol Adı</th>
+                <th scope="col">Personeller</th>
+                <th scope="col" style="width: 150px;">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var roleUserViewModel in Model)
+            {
+                <tr>
+                    <td>@roleUserViewModel.RoleName</td>
+                    <td>
+                        <ul>
+                            @foreach (var user in roleUserViewModel.Users)
+                            {
+                                <li>@user.PersonelAdSoyad</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        <form method="post">
+                            <a asp-action="Edit" asp-controller="Rol" asp-route-id="@roleUserViewModel.RoleId" class="btn btn-primary btn-sm">Düzenle</a>
+                            <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

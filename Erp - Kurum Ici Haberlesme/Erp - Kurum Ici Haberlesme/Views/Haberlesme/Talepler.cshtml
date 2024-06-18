@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Erp___Kurum_Ici_Haberlesme.Models.Haberlesme>
+
+@{
+    ViewData["Title"] = "Gelen Talepler";
+}
+
+<h1 class="center-text">@ViewData["Title"]</h1>
+
+<div class="filter-container">
+    <form method="get">
+        <div class="form-group">
+            <label for="priority-filter">Öncelik Durumu:</label>
+            <select class="form-control" id="priority-filter" name="priority">
+                <option value="">Tümü</option>
+                <option value="IkiUcHafta">İki Üç Hafta</option>
+                <option value="BirHafta">Bir Hafta</option>
+                <option value="Hemen">Hemen</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="seller-filter">Satıcı Seçildi mi?:</label>
+            <select class="form-control" id="seller-filter" name="sellerSelected">
+                <option value="">Tümü</option>
+                <option value="true">Evet</option>
+                <option value="false">Hayır</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date-filter">Tarih:</label>
+            <input type="date" class="form-control" id="date-filter" name="date">
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrele</button>
+    </form>
+</div>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Talep Id</th>
+                <th>Personel</th>
+                <th>Açıklama</th>
+                <th>Öncelik</th>
+                <th>Tarih</th>
+                <th>Satıcı Seçildi mi?</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TalebId</td>
+                    <td>@(item.User != null && item.User.PersonelAdSoyad != null ? item.User.PersonelAdSoyad : "Bilinmeyen Kullanıcı")</td>
+                    <td>@item.Aciklama</td>
+                    <td>@item.OncelikDurumu</td>
+                    <td>@item.OlusturmaTarihi.ToString("dd.MM.yyyy")</td>
+                    <td>@(string.IsNullOrEmpty(item.SaticiBilgileri) ? "Hayır" : "Evet")</td>
+                    <td><a href="@Url.Action("TalepDetay", new { id = item.TalebId })" class="btn btn-info">Detay</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="no-records">
+        Henüz Bir Talep Bulunamamaktadır!
+    </div>
+}
+
+<style>
+    .no-records {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 18px;
+        color: #555;
+    }
+
+    .center-text {
+        text-align: center;
+    }
+
+    .filter-container {
+        margin-bottom: 20px;
+    }
+</style>

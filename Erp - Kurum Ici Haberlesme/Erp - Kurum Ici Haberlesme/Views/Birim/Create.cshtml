@@ -1,0 +1,11 @@
+﻿@model Birimler
+
+<br />
+<br />
+<form asp-controller="Birim" asp-action="Create">
+    <div class="mb-3">
+        <label asp-for="BirimAd" class="form-label">Birim İsmi</label>
+        <input asp-for="BirimAd" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-secondary">Kaydet</button>
+</form>
