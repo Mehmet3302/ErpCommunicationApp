@@ -1,0 +1,1 @@
+Projeyi indirdikten sonra veritabanı bağlantılarını oluşturunuz. Ardından personellerin şifrelerini unuttukları takdirde email aracılığıyla şifrelerini değiştirebilmesi için gerekli olan smtp yapısını kurunuz. Ardından projeyi çalıştırıp kurumun içerisindeki her bir birime bağlı genel müdürler aracılığıyla yeni personel ekleyip giriş yapınız.
